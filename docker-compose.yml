@@ -1,0 +1,43 @@
+version: "3.8"
+
+services:
+  frontend:
+    image: nginx:alpine
+    container_name: vk-fe
+    ports:
+      - "8080:80"
+    volumes:
+      - ./frontend:/usr/share/nginx/html:ro
+    networks:
+      - app-network
+
+  backend:
+    build: ./backend
+    container_name: vk-be
+    ports:
+      - "8081:80"
+    env_file:
+      - .env
+    depends_on:
+      - database
+    networks:
+      - app-network
+
+  database:
+    image: postgres:15-alpine
+    container_name: vk-db
+    environment:
+      POSTGRES_USER: vkuser
+      POSTGRES_PASSWORD: admin123
+      POSTGRES_DB: vkdb
+    volumes:
+      - vk-postgres-data:/var/lib/postgresql/data
+    networks:
+      - app-network
+
+networks:
+  app-network:
+    driver: bridge
+
+volumes:
+  vk-postgres-data:

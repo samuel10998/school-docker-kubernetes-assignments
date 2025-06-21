@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Frontend Aplikácia</title>
+    <script>
+        async function fetchStatus() {
+            try {
+                // Zmeň URL na localhost s portom, kde beží backend
+                const response = await fetch('http://localhost:8081/api/status');
+                const data = await response.json();
+                document.getElementById('status').textContent = JSON.stringify(data);
+            } catch (error) {
+                document.getElementById('status').textContent = 'Chyba: ' + error;
+            }
+        }
+    </script>
+</head>
+<body>
+<h1>Frontend Aplikácia</h1>
+<button onclick="fetchStatus()">Získať status z backendu</button>
+<p id="status"></p>
+</body>
+</html>
