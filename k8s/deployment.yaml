@@ -1,0 +1,35 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: template-app
+  namespace: exam-samuel
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: template
+  template:
+    metadata:
+      labels:
+        app: template
+    spec:
+      initContainers:
+        - name: init-template
+          image: busybox
+          command: ["/bin/sh", "-c", "echo 'Toto je vygenerovaný súbor z InitContaineru.' > /data/generated.txt"]
+          volumeMounts:
+            - name: template-storage
+              mountPath: /data
+      containers:
+        - name: php-template
+          image: php-template:latest
+          imagePullPolicy: Never
+          ports:
+            - containerPort: 80
+          volumeMounts:
+            - name: template-storage
+              mountPath: /data
+      volumes:
+        - name: template-storage
+          persistentVolumeClaim:
+            claimName: template-pvc
