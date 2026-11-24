@@ -1,0 +1,6 @@
+# IDE files (IntelliJ / PhpStorm)
+.idea/
+*.iml
+
+# Local environment files (copy .env.example to .env)
+.env
