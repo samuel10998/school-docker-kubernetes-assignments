@@ -1,0 +1,7 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: template-config
+  namespace: exam-samuel
+data:
+  TEMPLATE_TEXT: "Toto je vygenerovaný súbor z InitContaineru."
